@@ -1,0 +1,27 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Deploy to AWS Elastic Beanstalk
+        uses: elasticbeanstalk/eb-deploy@v3
+        with:
+          application: my-application
+          environment: production
+          region: us-east-1
